@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Notre Famille V35 — Dan Moussa</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Noto+Sans+Ethiopic:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--fond:#FBF6EC;--carte:#fff;--ligne:#E6DAC4;--vert:#155E4B;--or:#D89A2B;--henne:#8C3B22;--txt:#2A2318;--doux:#8A7A5F;--r:16px}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans','Noto Sans Ethiopic','Noto Naskh Arabic',sans-serif;background:var(--fond);color:var(--txt);font-size:15px}
+body.nuit{--fond:#171208;--carte:#241C0E;--ligne:#3A2F1B;--txt:#F1E6CE;--doux:#B5A585}
+h1,h2,h3{font-family:'Unbounded',sans-serif;letter-spacing:-.02em}
+#app{max-width:520px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+header{background:var(--vert);color:#fff;padding:16px 18px 12px;position:sticky;top:0;z-index:20}
+header h1{font-size:19px}header h1 span{color:var(--or)}
+header .sal{font-size:12.5px;opacity:.9;margin-top:3px}
+.natte{height:8px;background:repeating-linear-gradient(90deg,var(--or) 0 14px,var(--henne) 14px 28px,#2E3A87 28px 42px,#fff 42px 44px)}
+.topbar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.topbar select,.topbar button{border:none;border-radius:9px;padding:7px 10px;font-size:12.5px;font-family:inherit;background:rgba(255,255,255,.16);color:#fff;cursor:pointer}
+.topbar select option{color:#222}
+main{flex:1;padding:14px 16px 92px}
+.ecr{display:none}.ecr.on{display:block;animation:f .25s}
+@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.carte{background:var(--carte);border:1.5px solid var(--ligne);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.sect{display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 8px}
+.sect h2{font-size:15px}
+.hint{font-size:12.5px;color:var(--doux);line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.s1{background:var(--carte);border:1.5px solid var(--ligne);border-radius:12px;padding:10px 4px;text-align:center}
+.s1 b{font-size:19px;display:block;color:var(--vert)}
+body.nuit .s1 b{color:var(--or)}
+.s1 small{font-size:10px;color:var(--doux)}
+input,select,textarea{font-family:inherit;font-size:14px;border:1.5px solid var(--ligne);border-radius:11px;padding:10px 12px;background:var(--carte);color:var(--txt);width:100%}
+.btn{border:none;border-radius:11px;padding:11px 15px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--vert);color:#fff}.btn.o{background:var(--or);color:#3A2A08}
+.btn.g{background:none;border:1.5px solid var(--ligne);color:var(--txt)}
+.btn.small{padding:7px 11px;font-size:12px;border-radius:9px}
+.frow{display:flex;gap:8px;margin-top:8px}.frow>*{flex:1}
+.lb{font-size:11.5px;font-weight:700;color:var(--doux);display:block;margin:9px 0 4px}
+.membre{display:flex;gap:11px;align-items:center;background:var(--carte);border:1.5px solid var(--ligne);border-radius:13px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.membre .av{width:44px;height:44px;border-radius:50%;background:var(--fond);display:grid;place-items:center;font-size:22px;border:2px solid var(--or);flex-shrink:0}
+.membre b{font-size:14px}.membre small{display:block;color:var(--doux);font-size:11.5px}
+.gen{font-size:10px;font-weight:700;background:var(--vert);color:#fff;border-radius:6px;padding:2px 7px;margin-inline-start:auto}
+.arbre ul{list-style:none;padding-inline-start:20px;border-inline-start:2px dashed var(--ligne);margin-inline-start:9px}
+.noeud{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer}
+.noeud .pli{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--ligne);background:var(--carte);font-size:11px;display:grid;place-items:center;flex-shrink:0;color:var(--txt)}
+.noeud .nm{font-size:13.5px;font-weight:600}
+.noeud .nm small{color:var(--doux);font-weight:400}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{border:1.5px solid var(--ligne);background:var(--carte);border-radius:15px;padding:5px 11px;font-size:12px;cursor:pointer;color:var(--doux);font-family:inherit}
+.chip.on{background:var(--vert);color:#fff;border-color:var(--vert)}
+.frise{border-inline-start:3px solid var(--or);padding-inline-start:14px}
+.ev{position:relative;padding:8px 0}
+.ev b{font-size:13.5px}.ev small{color:var(--doux);display:block;font-size:11.5px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--carte);border-top:1.5px solid var(--ligne);display:flex;padding:8px 4px 12px;z-index:30}
+nav button{flex:1;border:none;background:none;font-size:19px;color:var(--doux);display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font-family:inherit}
+nav button small{font-size:9.5px;font-weight:700}
+nav button.on{color:var(--vert)}body.nuit nav button.on{color:var(--or)}
+#fiche{position:fixed;inset:0;z-index:60;display:none}#fiche.on{display:block}
+#fiche .fd{position:absolute;inset:0;background:rgba(15,10,3,.6)}
+#fiche .pan{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;max-height:86dvh;overflow-y:auto;background:var(--fond);border-radius:22px 22px 0 0;padding:18px 20px 26px}
+.toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);background:var(--vert);color:#fff;padding:10px 17px;border-radius:13px;font-size:13px;opacity:0;transition:.25s;z-index:80;pointer-events:none;max-width:88vw;text-align:center}
+.toast.show{opacity:1}
+.livre .m1{padding:9px 0;border-bottom:1.5px dashed var(--ligne);font-size:13.5px}
+.livre .m1:last-child{border:none}.livre small{color:var(--doux)}
+.reactF{border:none;background:var(--fond);border-radius:11px;padding:2px 9px;font-size:12px;cursor:pointer;margin-top:5px;color:var(--txt);font-family:inherit}
+.diasp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.d1{background:var(--carte);border:1.5px solid var(--ligne);border-radius:12px;padding:10px 4px;text-align:center}
+.d1 b{font-size:20px;display:block}.d1 small{font-size:10.5px;color:var(--doux);display:block}
+.ringF{width:86px;height:86px;border-radius:50%;position:relative;display:grid;place-items:center;flex-shrink:0}
+.ringF i{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--or) var(--deg,0deg),var(--ligne) 0)}
+.ringF b{position:relative;background:var(--fond);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+.ldrF{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1.5px dashed var(--ligne);font-size:13.5px}
+.ldrF:last-child{border:none}.ldrF span:last-child{margin-inline-start:auto;color:var(--doux);font-size:12px}
+.diapo{text-align:center;padding:22px 10px}.diapo .av{font-size:64px}
+.confF{position:fixed;top:-12px;font-size:17px;z-index:95;animation:chF 2.3s linear forwards;pointer-events:none}
+@keyframes chF{to{transform:translateY(105vh) rotate(540deg);opacity:.2}}
+html[dir=rtl] .gen,html[dir=rtl] .ldrF span:last-child{margin-inline-start:auto}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <h1>🌳 <span data-i18n="appTitre">Notre Famille</span> <small style="font-size:10px;opacity:.7">V35</small></h1>
+  <div class="sal" id="sal" data-i18n="sal">–</div>
+  <div class="topbar">
+    <select id="lang" onchange="setLang(this.value)"></select>
+    <button onclick="basculerNuit()">🌙</button>
+    <button onclick="basculerSon()" id="bSon">🔊</button>
+    <button onclick="exporter()">📤</button>
+    <button onclick="document.getElementById('impF').click()">📥</button>
+    <input type="file" id="impF" accept=".json" style="display:none" onchange="importer(this)">
+  </div>
+</header>
+<div class="natte"></div>
+<main>
+
+<section class="ecr on" id="e0">
+  <div class="carte" style="background:var(--vert);color:#fff;border:none">
+    <div style="font-size:12px;opacity:.85">📜 <span data-i18n="tprov">–</span></div>
+    <p id="proverbe" style="margin-top:6px;font-size:14px;line-height:1.5">–</p>
+  </div>
+  <div class="carte" style="display:flex;gap:12px;align-items:center">
+    <div style="font-size:28px">🔥</div>
+    <div style="flex:1"><b style="font-size:13.5px"><span data-i18n="serie">–</span> : <span id="stF">1</span> <span data-i18n="jr">j</span></b>
+    <p class="hint" data-i18n="serieH">–</p></div>
+    <button class="btn o small" id="ckF" onclick="ckFam()" data-i18n="saluer">–</button>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="sect"><h2 data-i18n="anniv">–</h2></div>
+  <div id="annivs"></div>
+  <div class="sect"><h2 data-i18n="frise">–</h2></div>
+  <div class="carte frise" id="frise"></div>
+  <div class="sect"><h2 data-i18n="diasp">–</h2></div>
+  <div class="diasp" id="diasp"></div>
+  <div class="carte" style="display:flex;gap:14px;align-items:center;margin-top:12px">
+    <div class="ringF" id="ringC"><i></i><b id="ringCT">0%</b></div>
+    <div><b style="font-size:13.5px" data-i18n="fiches">–</b><p class="hint" data-i18n="fichesH">–</p></div>
+  </div>
+  <div class="sect"><h2 data-i18n="evt">–</h2></div>
+  <div class="carte livre" id="evts"></div>
+  <div class="frow">
+    <button class="btn o" onclick="evt('n')" data-i18n="naiss">–</button>
+    <button class="btn g" onclick="evt('m')" data-i18n="mari">–</button>
+  </div>
+</section>
+
+<section class="ecr" id="e1">
+  <input id="q" oninput="rendreMembres()" data-ph="searchPH">
+  <div class="chips" id="chGen"></div>
+  <div class="chips" id="chPays"></div>
+  <div id="liste"></div>
+</section>
+
+<section class="ecr" id="e2">
+  <p class="hint" style="margin-bottom:8px" data-i18n="arbreH">–</p>
+  <div class="carte arbre" id="arbre"></div>
+</section>
+
+<section class="ecr" id="e3">
+  <div class="carte">
+    <h2 style="font-size:15px" data-i18n="lien">–</h2>
+    <div class="frow"><select id="lA"></select><select id="lB"></select></div>
+    <button class="btn p" style="margin-top:10px;width:100%" onclick="calcLien()" data-i18n="calc">–</button>
+    <p class="hint" id="lienRes" style="margin-top:10px"></p>
+  </div>
+  <div class="carte">
+    <h2 style="font-size:15px" data-i18n="myst">–</h2>
+    <p class="hint" id="mystI" style="margin:8px 0">–</p>
+    <div class="frow"><select id="mystS"></select>
+    <button class="btn p small" onclick="deviner()" data-i18n="deviner">–</button></div>
+  </div>
+  <div class="carte">
+    <h2 style="font-size:15px" data-i18n="quiz">–</h2>
+    <p class="hint" style="margin:6px 0"><span data-i18n="score">–</span> : <b id="qS">0</b> · <span data-i18n="srie">–</span> : <b id="qSer">0</b> 🔥</p>
+    <p id="quizQ" class="hint" style="margin:8px 0">–</p>
+    <div id="quizR"></div>
+  </div>
+  <div class="carte">
+    <h2 style="font-size:15px" data-i18n="diapo">–</h2>
+    <p class="hint" data-i18n="diapoH">–</p>
+    <button class="btn o small" style="margin-top:8px" onclick="diapo()" data-i18n="lancer">–</button>
+  </div>
+  <div class="carte livre">
+    <h2 style="font-size:15px" data-i18n="livre">–</h2>
+    <div id="livre"></div>
+    <div class="frow"><input id="lMsg" data-ph="msgPH"><button class="btn p small" onclick="signer()" data-i18n="signer">–</button></div>
+  </div>
+  <div class="carte">
+    <h2 style="font-size:15px" data-i18n="gard">–</h2>
+    <div id="gardiens" style="margin-top:8px"></div>
+    <p class="hint" style="margin-top:6px" data-i18n="gardH">–</p>
+  </div>
+</section>
+
+<section class="ecr" id="e4">
+  <div class="carte">
+    <h2 style="font-size:15px" data-i18n="ajout">–</h2>
+    <label class="lb" data-i18n="fNom">–</label><input id="aNom" data-ph="phNom">
+    <div class="frow">
+      <div><label class="lb" data-i18n="fGenre">–</label><select id="aG"></select></div>
+      <div><label class="lb" data-i18n="fAn">–</label><input id="aAn" type="number" placeholder="1995"></div>
+    </div>
+    <div class="frow">
+      <div><label class="lb" data-i18n="fVille">–</label><input id="aVille" data-ph="fVille"></div>
+      <div><label class="lb" data-i18n="fPays">–</label><input id="aPays" data-ph="fPays"></div>
+    </div>
+    <label class="lb" data-i18n="fParent">–</label><select id="aParent"></select>
+    <button class="btn p" style="width:100%;margin-top:12px" onclick="ajouter()" data-i18n="ajBtn">–</button>
+  </div>
+</section>
+
+</main>
+<nav>
+  <button class="on" onclick="ecran(0,this)">🏠<small data-i18n="n0">–</small></button>
+  <button onclick="ecran(1,this)">👥<small data-i18n="n1">–</small></button>
+  <button onclick="ecran(2,this)">🌳<small data-i18n="n2">–</small></button>
+  <button onclick="ecran(3,this)">🧩<small data-i18n="n3">–</small></button>
+  <button onclick="ecran(4,this)">➕<small data-i18n="n4">–</small></button>
+</nav>
+<div id="fiche"><div class="fd" onclick="fermer()"></div><div class="pan" id="fbody"></div></div>
+<div class="toast" id="toast"></div>
+</div>
+<script>
+const DICT={"fr": {"sal": "Sannu da zuwa ! Bienvenue dans la famille Dan Moussa.", "n0": "Accueil", "n1": "Membres", "n2": "Arbre", "n3": "Jeux+", "n4": "Ajouter", "tprov": "Proverbe haoussa du jour", "prov1": "La fraternité se cultive à pied — rends visite aux tiens.", "prov2": "Une seule main ne peut soulever le toit.", "prov3": "La vérité vaut plus que l'argent.", "prov4": "La naissance est le remède de la mort — la lignée continue.", "mb": "membres", "viv": "vivants", "gen": "générations", "pays": "pays", "anniv": "🎂 Anniversaires du mois", "fete": "fête ses {n} ans ce mois-ci 🎉", "aucanniv": "Aucun anniversaire ce mois-ci.", "frise": "🕰️ Frise de la famille", "nait": "naît à", "evt": "📯 Derniers événements", "naiss": "👶 Annoncer une naissance", "mari": "💍 Annoncer un mariage", "evtQ1": "Nom du nouveau-né ?", "evtQ2": "Qui se marie ?", "evtN": "👶 Naissance de", "evtM": "💍 Mariage de", "evtOK": "📯 Événement annoncé à toute la famille !", "serie": "Série de visite", "serieH": "Reviens chaque jour saluer la famille — 7 j = 🏅 Gardien de la lignée", "saluer": "🤲 Sannu !", "dejasalue": "Déjà salué aujourd'hui — à demain !", "salueOK": "🔥 Série : {n} jours. La famille te salue !", "searchPH": "🔎 Chercher un membre, une ville…", "tousG": "Toutes générations", "tousP": "🌍 Tous pays", "aucun": "Personne ne correspond 🔎", "arbreH": "Touche ▸ pour déplier une branche, un nom pour ouvrir la fiche.", "lien": "🔗 Calculateur de lien de parenté", "calc": "Calculer le lien", "meme": "C'est la même personne 😄", "lienDesc": "{B} descend de {A} ({n} génération(s) plus bas)", "lienFrere": "Frères / sœurs (même parent : {C})", "lienOncle": "Oncle-tante ↔ neveu-nièce, via {C}", "lienCous": "Cousins ({n}ᵉ degré), ancêtre commun : {C}", "quiz": "🎯 Quiz « Qui est qui ? »", "score": "Score", "srie": "Série", "quizQ": "Qui est né(e) en {a} à {v} ?", "bravo": "✅ +10 pts ! Série {n} 🔥", "rate": "❌ Raté — la série repart à zéro", "myst": "🕵🏾 Membre mystère du jour", "ind1": "Indice 1 : génération G{g}.", "ind2": "Indice 2 : vit à {v}.", "ind3": "Indice 3 : né(e) en {a}.", "deviner": "Deviner", "trouve": "🎉 Bravo, c'était bien {N} !", "encore": "❌ Non… voici un autre indice", "perdu": "😅 Dommage ! Réponse : {N}", "demain": "Nouveau mystère demain !", "diapo": "🎞️ Mode présentation", "diapoH": "Fais défiler toute la famille pour les réunions.", "lancer": "▶ Lancer le diaporama", "stop": "⏹ Arrêter", "gene": "Génération", "livre": "📖 Livre d'or familial", "msgPH": "Ton message à la famille…", "signer": "Signer", "signOK": "📖 Message ajouté au livre d'or", "videM": "Écris d'abord ton message ✍️", "amin": "🤲 Amin", "gard": "🏆 Gardiens de la mémoire", "gardH": "Chaque ajout, message ou fiche complétée compte !", "contribs": "contribution(s)", "diasp": "🌍 Notre diaspora", "mbs": "membre(s)", "fiches": "📋 Fiches complètes", "fichesH": "Objectif famille : ville + pays + année pour chaque membre.", "ajout": "➕ Ajouter un membre", "fNom": "Nom complet", "fGenre": "Genre", "fH": "👨🏾 Homme", "fF": "👩🏾 Femme", "fAn": "Année de naissance", "fVille": "Ville", "fPays": "Pays", "fParent": "Parent (père/mère dans l'arbre)", "ajBtn": "Ajouter à la lignée", "ajOK": "🌱 {N} rejoint la lignée — génération {g}", "nomOb": "Le nom est obligatoire ✍️", "lignee": "🧬 Sa lignée jusqu'au fondateur", "enfants": "👶 Enfants", "aucunE": "Aucun enregistré", "modif": "✏️ Modifier", "waBtn": "📲 WhatsApp", "nuitT": "Thème changé 🌙", "sonOn": "🔊 Sons activés", "sonOff": "🔇 Sons coupés", "langOK": "Français ✓", "edNom": "Nom :", "edVille": "Ville :", "edOK": "✏️ Fiche mise à jour", "retImp": "Impossible : ce membre a des descendants dans l'arbre.", "retQ": "Retirer ce membre de l'arbre ?", "retOK": "🗑️ Membre retiré", "waTxt": "Rejoins l'arbre familial !", "expOK": "📤 Sauvegarde JSON téléchargée", "impOK": "📥 Famille importée :", "impBad": "Fichier invalide", "phNom": "Ex : Ibrahim Dan Moussa", "g1": "fiches complétées", "g2": "photos ajoutées", "toi": "Toi", "jr": "j"}, "en": {"sal": "Sannu da zuwa! Welcome to the Dan Moussa family.", "n0": "Home", "n1": "Members", "n2": "Tree", "n3": "Games+", "n4": "Add", "tprov": "Hausa proverb of the day", "prov1": "Brotherhood is grown on foot — visit your people.", "prov2": "One hand cannot lift the roof.", "prov3": "Truth is worth more than money.", "prov4": "Birth is the remedy for death — the lineage goes on.", "mb": "members", "viv": "living", "gen": "generations", "pays": "countries", "anniv": "🎂 Birthdays this month", "fete": "turns {n} this month 🎉", "aucanniv": "No birthdays this month.", "frise": "🕰️ Family timeline", "nait": "born in", "evt": "📯 Latest events", "naiss": "👶 Announce a birth", "mari": "💍 Announce a wedding", "evtQ1": "Name of the newborn?", "evtQ2": "Who is getting married?", "evtN": "👶 Birth of", "evtM": "💍 Wedding of", "evtOK": "📯 Event announced to the whole family!", "serie": "Visit streak", "serieH": "Come greet the family every day — 7 days = 🏅 Keeper of the lineage", "saluer": "🤲 Hello!", "dejasalue": "Already greeted today — see you tomorrow!", "salueOK": "🔥 Streak: {n} days. The family greets you!", "searchPH": "🔎 Search a member, a city…", "tousG": "All generations", "tousP": "🌍 All countries", "aucun": "No one matches 🔎", "arbreH": "Tap ▸ to unfold a branch, a name to open the profile.", "lien": "🔗 Kinship calculator", "calc": "Compute the link", "meme": "That's the same person 😄", "lienDesc": "{B} descends from {A} ({n} generation(s) below)", "lienFrere": "Siblings (same parent: {C})", "lienOncle": "Uncle-aunt ↔ nephew-niece, via {C}", "lienCous": "Cousins ({n} degree), common ancestor: {C}", "quiz": "🎯 \"Who is who?\" quiz", "score": "Score", "srie": "Streak", "quizQ": "Who was born in {a} in {v}?", "bravo": "✅ +10 pts! Streak {n} 🔥", "rate": "❌ Missed — streak resets", "myst": "🕵🏾 Mystery member of the day", "ind1": "Clue 1: generation G{g}.", "ind2": "Clue 2: lives in {v}.", "ind3": "Clue 3: born in {a}.", "deviner": "Guess", "trouve": "🎉 Well done, it was {N}!", "encore": "❌ No… here is another clue", "perdu": "😅 Too bad! Answer: {N}", "demain": "New mystery tomorrow!", "diapo": "🎞️ Presentation mode", "diapoH": "Scroll through the whole family for reunions.", "lancer": "▶ Start slideshow", "stop": "⏹ Stop", "gene": "Generation", "livre": "📖 Family guestbook", "msgPH": "Your message to the family…", "signer": "Sign", "signOK": "📖 Message added to the guestbook", "videM": "Write your message first ✍️", "amin": "🤲 Amin", "gard": "🏆 Keepers of memory", "gardH": "Every addition, message or completed profile counts!", "contribs": "contribution(s)", "diasp": "🌍 Our diaspora", "mbs": "member(s)", "fiches": "📋 Complete profiles", "fichesH": "Family goal: city + country + year for everyone.", "ajout": "➕ Add a member", "fNom": "Full name", "fGenre": "Gender", "fH": "👨🏾 Male", "fF": "👩🏾 Female", "fAn": "Year of birth", "fVille": "City", "fPays": "Country", "fParent": "Parent (father/mother in the tree)", "ajBtn": "Add to the lineage", "ajOK": "🌱 {N} joins the lineage — generation {g}", "nomOb": "Name is required ✍️", "lignee": "🧬 Lineage to the founder", "enfants": "👶 Children", "aucunE": "None recorded", "modif": "✏️ Edit", "waBtn": "📲 WhatsApp", "nuitT": "Theme switched 🌙", "sonOn": "🔊 Sounds on", "sonOff": "🔇 Sounds off", "langOK": "English ✓", "edNom": "Name:", "edVille": "City:", "edOK": "✏️ Profile updated", "retImp": "Impossible: this member has descendants in the tree.", "retQ": "Remove this member from the tree?", "retOK": "🗑️ Member removed", "waTxt": "Join the family tree!", "expOK": "📤 JSON backup downloaded", "impOK": "📥 Family imported:", "impBad": "Invalid file", "phNom": "E.g.: Ibrahim Dan Moussa", "g1": "profiles completed", "g2": "photos added", "toi": "You", "jr": "d"}, "ha": {"sal": "Sannu da zuwa cikin iyalin Dan Moussa!", "n0": "Gida", "n1": "Iyali", "n2": "Itace", "n3": "Wasa+", "n4": "Ƙara", "tprov": "Karin maganar yau", "prov1": "Zumunta a ƙafa take — ziyarci naka.", "prov2": "Hannu ɗaya ba ya ɗaukar jinka.", "prov3": "Gaskiya ta fi kwabo.", "prov4": "Haihuwa maganin mutuwa — zuriya na ci gaba.", "mb": "yan uwa", "viv": "masu rai", "gen": "zamani", "pays": "ƙasashe", "anniv": "🎂 Ranakun haihuwa na wata", "fete": "zai cika shekara {n} a wannan wata 🎉", "aucanniv": "Babu ranar haihuwa a wannan wata.", "frise": "🕰️ Tarihin iyali", "nait": "an haife shi a", "evt": "📯 Sabbin abubuwa", "naiss": "👶 Sanar da haihuwa", "mari": "💍 Sanar da aure", "evtQ1": "Sunan jariri?", "evtQ2": "Wanene zai yi aure?", "evtN": "👶 Haihuwar", "evtM": "💍 Auren", "evtOK": "📯 An sanar da dukan iyali!", "serie": "Jerin ziyara", "serieH": "Ka dawo kowace rana — kwana 7 = 🏅 Mai gadin zuriya", "saluer": "🤲 Sannu!", "dejasalue": "An riga an gaisa yau — sai gobe!", "salueOK": "🔥 Jerin: kwana {n}. Iyali na gaishe ka!", "searchPH": "🔎 Nemo ɗan uwa ko gari…", "tousG": "Duk zamani", "tousP": "🌍 Duk ƙasashe", "aucun": "Ba a sami kowa ba 🔎", "arbreH": "Danna ▸ don buɗe reshe, suna don buɗe bayani.", "lien": "🔗 Lissafin dangantaka", "calc": "Lissafa dangantaka", "meme": "Mutum ɗaya ne 😄", "lienDesc": "{B} ya fito daga {A} (zamani {n} ƙasa)", "lienFrere": "Yan uwa (iyaye ɗaya: {C})", "lienOncle": "Kawu-goggo ↔ ɗan wa, ta {C}", "lienCous": "Yan uwan juna (mataki {n}), kakan gama gari: {C}", "quiz": "🎯 Wasan « Wanene? »", "score": "Maki", "srie": "Jerin", "quizQ": "Wanene aka haifa a {a} a {v}?", "bravo": "✅ Maki +10! Jerin {n} 🔥", "rate": "❌ Kuskure — jerin ya koma sifili", "myst": "🕵🏾 Ɓoyayyen ɗan uwa na yau", "ind1": "Alama 1: zamani G{g}.", "ind2": "Alama 2: yana zaune a {v}.", "ind3": "Alama 3: an haife shi a {a}.", "deviner": "Yi hasashe", "trouve": "🎉 Madalla, {N} ne!", "encore": "❌ A'a… ga wata alama", "perdu": "😅 Kaico! Amsa: {N}", "demain": "Sabon asiri gobe!", "diapo": "🎞️ Yanayin gabatarwa", "diapoH": "Duba dukan iyali don taro.", "lancer": "▶ Fara nunin", "stop": "⏹ Tsaya", "gene": "Zamani", "livre": "📖 Littafin iyali", "msgPH": "Saƙonka ga iyali…", "signer": "Sa hannu", "signOK": "📖 An ƙara saƙo", "videM": "Rubuta saƙo tukuna ✍️", "amin": "🤲 Amin", "gard": "🏆 Masu gadin tarihi", "gardH": "Kowace gudummawa tana ƙidaya!", "contribs": "gudummawa", "diasp": "🌍 Yaduwar iyalinmu", "mbs": "ɗan uwa", "fiches": "📋 Cikakkun bayanai", "fichesH": "Burin iyali: gari + ƙasa + shekara ga kowa.", "ajout": "➕ Ƙara ɗan uwa", "fNom": "Cikakken suna", "fGenre": "Jinsi", "fH": "👨🏾 Namiji", "fF": "👩🏾 Mace", "fAn": "Shekarar haihuwa", "fVille": "Gari", "fPays": "Ƙasa", "fParent": "Iyaye (a cikin itace)", "ajBtn": "Ƙara cikin zuriya", "ajOK": "🌱 {N} ya shiga zuriya — zamani {g}", "nomOb": "Ana buƙatar suna ✍️", "lignee": "🧬 Zuriyarsa har zuwa kaka", "enfants": "👶 Yara", "aucunE": "Babu rajista", "modif": "✏️ Gyara", "waBtn": "📲 WhatsApp", "nuitT": "An sauya launi 🌙", "sonOn": "🔊 Sauti a kunne", "sonOff": "🔇 An kashe sauti", "langOK": "Hausa ✓", "edNom": "Suna:", "edVille": "Gari:", "edOK": "✏️ An sabunta bayani", "retImp": "Ba zai yiwu ba: yana da zuriya a itacen.", "retQ": "A cire wannan ɗan uwa?", "retOK": "🗑️ An cire shi", "waTxt": "Shiga itacen iyali!", "expOK": "📤 An sauke ajiyar JSON", "impOK": "📥 An shigo da iyali:", "impBad": "Fayil mara inganci", "phNom": "Misali: Ibrahim Dan Moussa", "g1": "bayanai cikakku", "g2": "hotuna da aka ƙara", "toi": "Kai", "jr": "k"}, "ar": {"sal": "أهلاً بكم في عائلة دان موسى", "n0": "الرئيسية", "n1": "الأعضاء", "n2": "الشجرة", "n3": "ألعاب+", "n4": "إضافة", "tprov": "مثل هاوسا اليوم", "prov1": "الأخوة تُزرع بالزيارة — زُر أهلك.", "prov2": "يد واحدة لا ترفع السقف.", "prov3": "الحقيقة أغلى من المال.", "prov4": "الميلاد دواء الموت — النسل مستمر.", "mb": "أعضاء", "viv": "أحياء", "gen": "أجيال", "pays": "دول", "anniv": "🎂 أعياد ميلاد الشهر", "fete": "يُتم {n} سنة هذا الشهر 🎉", "aucanniv": "لا أعياد ميلاد هذا الشهر.", "frise": "🕰️ الخط الزمني للعائلة", "nait": "وُلد في", "evt": "📯 آخر الأحداث", "naiss": "👶 إعلان ولادة", "mari": "💍 إعلان زواج", "evtQ1": "اسم المولود؟", "evtQ2": "من سيتزوج؟", "evtN": "👶 ولادة", "evtM": "💍 زواج", "evtOK": "📯 تم إبلاغ كل العائلة!", "serie": "سلسلة الزيارات", "serieH": "عُد كل يوم لتحية العائلة — 7 أيام = 🏅 حارس النسل", "saluer": "🤲 سلام!", "dejasalue": "سلّمت اليوم — إلى الغد!", "salueOK": "🔥 السلسلة: {n} أيام. العائلة تحييك!", "searchPH": "🔎 ابحث عن عضو أو مدينة…", "tousG": "كل الأجيال", "tousP": "🌍 كل الدول", "aucun": "لا نتائج 🔎", "arbreH": "المس ▸ لفتح فرع، والاسم لفتح البطاقة.", "lien": "🔗 حاسبة صلة القرابة", "calc": "احسب الصلة", "meme": "إنه نفس الشخص 😄", "lienDesc": "{B} من نسل {A} ({n} جيل أدنى)", "lienFrere": "إخوة (نفس الوالد: {C})", "lienOncle": "عم/عمة ↔ ابن أخ، عبر {C}", "lienCous": "أبناء عمومة (درجة {n})، الجد المشترك: {C}", "quiz": "🎯 لعبة « من هو؟ »", "score": "النقاط", "srie": "السلسلة", "quizQ": "من وُلد سنة {a} في {v}؟", "bravo": "✅ ‎+10 نقاط! سلسلة {n} 🔥", "rate": "❌ خطأ — تعود السلسلة للصفر", "myst": "🕵🏾 العضو الغامض اليوم", "ind1": "دليل 1: الجيل G{g}.", "ind2": "دليل 2: يعيش في {v}.", "ind3": "دليل 3: وُلد سنة {a}.", "deviner": "خمّن", "trouve": "🎉 أحسنت، إنه {N}!", "encore": "❌ لا… إليك دليلاً آخر", "perdu": "😅 للأسف! الجواب: {N}", "demain": "لغز جديد غداً!", "diapo": "🎞️ وضع العرض", "diapoH": "اعرض كل العائلة في اللقاءات.", "lancer": "▶ ابدأ العرض", "stop": "⏹ إيقاف", "gene": "الجيل", "livre": "📖 سجل العائلة", "msgPH": "رسالتك إلى العائلة…", "signer": "وقّع", "signOK": "📖 أُضيفت الرسالة", "videM": "اكتب رسالتك أولاً ✍️", "amin": "🤲 آمين", "gard": "🏆 حُرّاس الذاكرة", "gardH": "كل إضافة أو رسالة تُحتسب!", "contribs": "مساهمة", "diasp": "🌍 انتشار عائلتنا", "mbs": "عضو", "fiches": "📋 بطاقات مكتملة", "fichesH": "هدف العائلة: مدينة + دولة + سنة للجميع.", "ajout": "➕ إضافة عضو", "fNom": "الاسم الكامل", "fGenre": "الجنس", "fH": "👨🏾 ذكر", "fF": "👩🏾 أنثى", "fAn": "سنة الميلاد", "fVille": "المدينة", "fPays": "الدولة", "fParent": "الوالد (في الشجرة)", "ajBtn": "أضِف إلى النسل", "ajOK": "🌱 {N} انضم إلى النسل — الجيل {g}", "nomOb": "الاسم مطلوب ✍️", "lignee": "🧬 نسبه حتى المؤسس", "enfants": "👶 الأبناء", "aucunE": "لا يوجد", "modif": "✏️ تعديل", "waBtn": "📲 واتساب", "nuitT": "تم تغيير المظهر 🌙", "sonOn": "🔊 الصوت مفعّل", "sonOff": "🔇 الصوت مغلق", "langOK": "العربية ✓", "edNom": "الاسم:", "edVille": "المدينة:", "edOK": "✏️ تم تحديث البطاقة", "retImp": "مستحيل: لهذا العضو ذرية في الشجرة.", "retQ": "إزالة هذا العضو من الشجرة؟", "retOK": "🗑️ تمت الإزالة", "waTxt": "انضم إلى شجرة العائلة!", "expOK": "📤 تم تنزيل النسخة JSON", "impOK": "📥 تم استيراد العائلة:", "impBad": "ملف غير صالح", "phNom": "مثال: إبراهيم دان موسى", "g1": "بطاقات مكتملة", "g2": "صور مضافة", "toi": "أنت", "jr": "ي"}, "sw": {"sal": "Karibu katika familia ya Dan Moussa!", "n0": "Nyumbani", "n1": "Wanafamilia", "n2": "Mti", "n3": "Michezo+", "n4": "Ongeza", "tprov": "Methali ya leo", "prov1": "Udugu hulimwa kwa kutembeleana.", "prov2": "Mkono mmoja hauinui paa.", "prov3": "Ukweli ni bora kuliko pesa.", "prov4": "Kuzaliwa ni dawa ya kifo — ukoo unaendelea.", "mb": "wanafamilia", "viv": "walio hai", "gen": "vizazi", "pays": "nchi", "anniv": "🎂 Siku za kuzaliwa mwezi huu", "fete": "anatimiza miaka {n} mwezi huu 🎉", "aucanniv": "Hakuna siku ya kuzaliwa mwezi huu.", "frise": "🕰️ Historia ya familia", "nait": "alizaliwa", "evt": "📯 Matukio ya karibuni", "naiss": "👶 Tangaza kuzaliwa", "mari": "💍 Tangaza harusi", "evtQ1": "Jina la mtoto?", "evtQ2": "Nani anaoa?", "evtN": "👶 Kuzaliwa kwa", "evtM": "💍 Harusi ya", "evtOK": "📯 Familia yote imetangaziwa!", "serie": "Mfululizo wa ziara", "serieH": "Rudi kila siku kusalimia familia — siku 7 = 🏅 Mlinzi wa ukoo", "saluer": "🤲 Habari!", "dejasalue": "Umesalimia leo — kesho tena!", "salueOK": "🔥 Mfululizo: siku {n}. Familia inakusalimu!", "searchPH": "🔎 Tafuta mwanafamilia au mji…", "tousG": "Vizazi vyote", "tousP": "🌍 Nchi zote", "aucun": "Hakuna anayelingana 🔎", "arbreH": "Gusa ▸ kufungua tawi, jina kufungua wasifu.", "lien": "🔗 Kikokotoo cha undugu", "calc": "Kokotoa undugu", "meme": "Ni mtu yule yule 😄", "lienDesc": "{B} anatoka kwa {A} (vizazi {n} chini)", "lienFrere": "Ndugu (mzazi mmoja: {C})", "lienOncle": "Mjomba-shangazi ↔ mpwa, kupitia {C}", "lienCous": "Binamu (daraja {n}), babu wa pamoja: {C}", "quiz": "🎯 Mchezo « Nani ni nani? »", "score": "Alama", "srie": "Mfululizo", "quizQ": "Nani alizaliwa {a} huko {v}?", "bravo": "✅ Alama +10! Mfululizo {n} 🔥", "rate": "❌ Umekosea — mfululizo umerudi sifuri", "myst": "🕵🏾 Mwanafamilia wa siri wa leo", "ind1": "Dokezo 1: kizazi G{g}.", "ind2": "Dokezo 2: anaishi {v}.", "ind3": "Dokezo 3: alizaliwa {a}.", "deviner": "Bashiri", "trouve": "🎉 Hongera, alikuwa {N}!", "encore": "❌ Hapana… dokezo lingine", "perdu": "😅 Pole! Jibu: {N}", "demain": "Siri mpya kesho!", "diapo": "🎞️ Hali ya maonyesho", "diapoH": "Pitia familia yote kwenye mikutano.", "lancer": "▶ Anza maonyesho", "stop": "⏹ Simamisha", "gene": "Kizazi", "livre": "📖 Kitabu cha familia", "msgPH": "Ujumbe wako kwa familia…", "signer": "Tia sahihi", "signOK": "📖 Ujumbe umeongezwa", "videM": "Andika ujumbe kwanza ✍️", "amin": "🤲 Amina", "gard": "🏆 Walinzi wa kumbukumbu", "gardH": "Kila mchango unahesabika!", "contribs": "mchango", "diasp": "🌍 Wanafamilia duniani", "mbs": "mwanafamilia", "fiches": "📋 Wasifu kamili", "fichesH": "Lengo: mji + nchi + mwaka kwa kila mmoja.", "ajout": "➕ Ongeza mwanafamilia", "fNom": "Jina kamili", "fGenre": "Jinsia", "fH": "👨🏾 Mume", "fF": "👩🏾 Mke", "fAn": "Mwaka wa kuzaliwa", "fVille": "Mji", "fPays": "Nchi", "fParent": "Mzazi (katika mti)", "ajBtn": "Ongeza kwenye ukoo", "ajOK": "🌱 {N} amejiunga na ukoo — kizazi {g}", "nomOb": "Jina linahitajika ✍️", "lignee": "🧬 Ukoo hadi mwanzilishi", "enfants": "👶 Watoto", "aucunE": "Hakuna", "modif": "✏️ Hariri", "waBtn": "📲 WhatsApp", "nuitT": "Mandhari imebadilika 🌙", "sonOn": "🔊 Sauti zimewashwa", "sonOff": "🔇 Sauti zimezimwa", "langOK": "Kiswahili ✓", "edNom": "Jina:", "edVille": "Mji:", "edOK": "✏️ Wasifu umesasishwa", "retImp": "Haiwezekani: ana kizazi katika mti.", "retQ": "Kumwondoa mwanafamilia huyu?", "retOK": "🗑️ Ameondolewa", "waTxt": "Jiunge na mti wa familia!", "expOK": "📤 Nakala ya JSON imepakuliwa", "impOK": "📥 Familia imeingizwa:", "impBad": "Faili batili", "phNom": "Mf: Ibrahim Dan Moussa", "g1": "wasifu kamili", "g2": "picha zilizoongezwa", "toi": "Wewe", "jr": "s"}, "yo": {"sal": "Ẹ ku abọ sí ìdílé Dan Moussa!", "n0": "Ilé", "n1": "Ìdílé", "n2": "Igi", "n3": "Eré+", "n4": "Fikun", "tprov": "Òwe ojó òní", "prov1": "Ìbátan ni a ń tọ́jú pẹ̀lú ìbẹ̀wò.", "prov2": "Ọwọ́ kan kò lè gbé òrùlé.", "prov3": "Òtítọ́ ju owó lọ.", "prov4": "Ìbí ni oògùn ikú — ìran ń bá a lọ.", "mb": "ọmọ ìdílé", "viv": "alààyè", "gen": "ìran", "pays": "orílẹ̀-èdè", "anniv": "🎂 Ọjọ́ ìbí oṣù yìí", "fete": "yóò pé ọmọ ọdún {n} loṣù yìí 🎉", "aucanniv": "Kò sí ọjọ́ ìbí loṣù yìí.", "frise": "🕰️ Ìtàn ìdílé", "nait": "a bí i ní", "evt": "📯 Ìṣẹ̀lẹ̀ tuntun", "naiss": "👶 Kéde ìbí ọmọ", "mari": "💍 Kéde ìgbéyàwó", "evtQ1": "Orúkọ ọmọ tuntun?", "evtQ2": "Ta ni ó ń gbéyàwó?", "evtN": "👶 Ìbí", "evtM": "💍 Ìgbéyàwó", "evtOK": "📯 A ti kéde fún gbogbo ìdílé!", "serie": "Ìtẹ̀síwájú ìbẹ̀wò", "serieH": "Padà lójoojúmọ́ — ọjọ́ 7 = 🏅 Olùṣọ́ ìran", "saluer": "🤲 Ẹ kú ọjọ́!", "dejasalue": "O ti kí wọn lónìí — di ọ̀la!", "salueOK": "🔥 Ìtẹ̀síwájú: ọjọ́ {n}. Ìdílé kí ọ!", "searchPH": "🔎 Wá ọmọ ìdílé tàbí ìlú…", "tousG": "Gbogbo ìran", "tousP": "🌍 Gbogbo orílẹ̀-èdè", "aucun": "Kò sí ẹni tí ó bá mu 🔎", "arbreH": "Tẹ ▸ láti ṣí ẹ̀ka, orúkọ láti ṣí ìwé.", "lien": "🔗 Ìṣirò ìbátan", "calc": "Ṣírò ìbátan", "meme": "Ẹni kan náà ni 😄", "lienDesc": "{B} wá láti ọ̀dọ̀ {A} (ìran {n} nísàlẹ̀)", "lienFrere": "Ọmọ ìyá kan (òbí kan: {C})", "lienOncle": "Àbúrò bàbá ↔ ọmọ arákùnrin, nípasẹ̀ {C}", "lienCous": "Ìbátan (ipò {n}), baba ńlá kan náà: {C}", "quiz": "🎯 Eré « Ta ni? »", "score": "Àmì", "srie": "Ìtẹ̀síwájú", "quizQ": "Ta ni a bí ní {a} ní {v}?", "bravo": "✅ Àmì +10! Ìtẹ̀síwájú {n} 🔥", "rate": "❌ Àṣìṣe — ó padà sí òdo", "myst": "🕵🏾 Ọmọ ìdílé àṣírí ojó òní", "ind1": "Àmì 1: ìran G{g}.", "ind2": "Àmì 2: ó ń gbé ní {v}.", "ind3": "Àmì 3: a bí i ní {a}.", "deviner": "Dá a mọ̀", "trouve": "🎉 Kú iṣẹ́, {N} ni!", "encore": "❌ Rárá… àmì mìíràn nìyí", "perdu": "😅 Ó ṣeni láàánú! Ìdáhùn: {N}", "demain": "Àṣírí tuntun lọ́la!", "diapo": "🎞️ Ìfihàn", "diapoH": "Wo gbogbo ìdílé fún ìpàdé.", "lancer": "▶ Bẹ̀rẹ̀ ìfihàn", "stop": "⏹ Dúró", "gene": "Ìran", "livre": "📖 Ìwé ìrántí ìdílé", "msgPH": "Ìfiránṣẹ́ rẹ sí ìdílé…", "signer": "Fọwọ́ sí i", "signOK": "📖 A ti fi ìfiránṣẹ́ kún un", "videM": "Kọ ìfiránṣẹ́ rẹ ná ✍️", "amin": "🤲 Àmín", "gard": "🏆 Olùṣọ́ ìrántí", "gardH": "Gbogbo àfikún ní iye!", "contribs": "àfikún", "diasp": "🌍 Ìtànkálẹ̀ ìdílé wa", "mbs": "ọmọ ìdílé", "fiches": "📋 Ìwé pípé", "fichesH": "Ète: ìlú + orílẹ̀-èdè + ọdún fún gbogbo ènìyàn.", "ajout": "➕ Fi ọmọ ìdílé kun", "fNom": "Orúkọ kíkún", "fGenre": "Akọ tàbí abo", "fH": "👨🏾 Ọkùnrin", "fF": "👩🏾 Obìnrin", "fAn": "Ọdún ìbí", "fVille": "Ìlú", "fPays": "Orílẹ̀-èdè", "fParent": "Òbí (nínú igi)", "ajBtn": "Fi kún ìran", "ajOK": "🌱 {N} darapọ̀ mọ́ ìran — ìran {g}", "nomOb": "Orúkọ ṣe pàtàkì ✍️", "lignee": "🧬 Ìran rẹ̀ dé ọ̀dọ̀ olùdásílẹ̀", "enfants": "👶 Àwọn ọmọ", "aucunE": "Kò sí", "modif": "✏️ Ṣàtúnṣe", "waBtn": "📲 WhatsApp", "nuitT": "Àwọ̀ ti yípadà 🌙", "sonOn": "🔊 Ìró wà", "sonOff": "🔇 Ìró kú", "langOK": "Yorùbá ✓", "edNom": "Orúkọ:", "edVille": "Ìlú:", "edOK": "✏️ Ìwé ti yípadà", "retImp": "Kò ṣeé ṣe: ó ní ìran nínú igi.", "retQ": "Yọ ọmọ ìdílé yìí kúrò?", "retOK": "🗑️ Ti yọ kúrò", "waTxt": "Darapọ̀ mọ́ igi ìdílé!", "expOK": "📤 Ìpamọ́ JSON ti gbà", "impOK": "📥 Ìdílé ti wọlé:", "impBad": "Fáìlì kò tọ́", "phNom": "Àpẹẹrẹ: Ibrahim Dan Moussa", "g1": "ìwé pípé", "g2": "àwòrán àfikún", "toi": "Ìwọ", "jr": "ọ"}, "am": {"sal": "ወደ ዳን ሙሳ ቤተሰብ እንኳን ደህና መጡ!", "n0": "መነሻ", "n1": "አባላት", "n2": "ዛፍ", "n3": "ጨዋታ+", "n4": "ጨምር", "tprov": "የዛሬ ምሳሌ", "prov1": "ወንድማማችነት በመጎብኘት ያድጋል።", "prov2": "አንድ እጅ ጣሪያ አያነሳም።", "prov3": "እውነት ከገንዘብ ይበልጣል።", "prov4": "መወለድ የሞት መድኃኒት ነው — ትውልዱ ይቀጥላል።", "mb": "አባላት", "viv": "በሕይወት ያሉ", "gen": "ትውልዶች", "pays": "አገሮች", "anniv": "🎂 የዚህ ወር ልደቶች", "fete": "በዚህ ወር {n} ዓመት ይሞላል 🎉", "aucanniv": "በዚህ ወር ልደት የለም።", "frise": "🕰️ የቤተሰብ ታሪክ", "nait": "ተወለደ በ", "evt": "📯 የቅርብ ክስተቶች", "naiss": "👶 ልደት አብስር", "mari": "💍 ሰርግ አብስር", "evtQ1": "የሕፃኑ ስም?", "evtQ2": "ማን ያገባል?", "evtN": "👶 የ… ልደት", "evtM": "💍 የ… ሰርግ", "evtOK": "📯 ለመላው ቤተሰብ ተነግሯል!", "serie": "የጉብኝት ተከታታይ", "serieH": "በየቀኑ ተመለስ — 7 ቀን = 🏅 የትውልድ ጠባቂ", "saluer": "🤲 ሰላም!", "dejasalue": "ዛሬ ሰላም ብለሃል — እስከ ነገ!", "salueOK": "🔥 ተከታታይ: {n} ቀናት። ቤተሰቡ ሰላም ይልሃል!", "searchPH": "🔎 አባል ወይም ከተማ ፈልግ…", "tousG": "ሁሉም ትውልዶች", "tousP": "🌍 ሁሉም አገሮች", "aucun": "ማንም አልተገኘም 🔎", "arbreH": "▸ ንካ ቅርንጫፍ ለመክፈት፣ ስም ለመግለጫ።", "lien": "🔗 የዝምድና ማስያ", "calc": "ዝምድናውን አስላ", "meme": "ያው ሰው ነው 😄", "lienDesc": "{B} ከ{A} የተወለደ ነው ({n} ትውልድ በታች)", "lienFrere": "ወንድማማቾች (አንድ ወላጅ: {C})", "lienOncle": "አጎት-አክስት ↔ የወንድም ልጅ፣ በ{C}", "lienCous": "የአጎት ልጆች (ደረጃ {n})፣ የጋራ ቅድመ አያት: {C}", "quiz": "🎯 « ማን ነው? » ጨዋታ", "score": "ነጥብ", "srie": "ተከታታይ", "quizQ": "በ{a} በ{v} ማን ተወለደ?", "bravo": "✅ +10 ነጥብ! ተከታታይ {n} 🔥", "rate": "❌ ተሳስተሃል — ወደ ዜሮ ተመለሰ", "myst": "🕵🏾 የዛሬ ሚስጥራዊ አባል", "ind1": "ፍንጭ 1: ትውልድ G{g}።", "ind2": "ፍንጭ 2: በ{v} ይኖራል።", "ind3": "ፍንጭ 3: በ{a} ተወለደ።", "deviner": "ገምት", "trouve": "🎉 ጎበዝ! {N} ነበር!", "encore": "❌ አይደለም… ሌላ ፍንጭ", "perdu": "😅 አዝናለሁ! መልስ: {N}", "demain": "ነገ አዲስ ሚስጥር!", "diapo": "🎞️ የማቅረቢያ ሁነታ", "diapoH": "ለስብሰባ ቤተሰቡን ሁሉ አሳይ።", "lancer": "▶ ማሳያ ጀምር", "stop": "⏹ አቁም", "gene": "ትውልድ", "livre": "📖 የቤተሰብ መዝገብ", "msgPH": "ለቤተሰቡ መልእክትህ…", "signer": "ፈርም", "signOK": "📖 መልእክት ታክሏል", "videM": "መጀመሪያ መልእክት ጻፍ ✍️", "amin": "🤲 አሜን", "gard": "🏆 የትውስታ ጠባቂዎች", "gardH": "እያንዳንዱ አስተዋጽኦ ይቆጠራል!", "contribs": "አስተዋጽኦ", "diasp": "🌍 ቤተሰባችን በዓለም", "mbs": "አባል", "fiches": "📋 የተሟሉ መገለጫዎች", "fichesH": "ግብ: ከተማ + አገር + ዓመት ለሁሉም።", "ajout": "➕ አባል ጨምር", "fNom": "ሙሉ ስም", "fGenre": "ፆታ", "fH": "👨🏾 ወንድ", "fF": "👩🏾 ሴት", "fAn": "የልደት ዓመት", "fVille": "ከተማ", "fPays": "አገር", "fParent": "ወላጅ (በዛፉ ውስጥ)", "ajBtn": "ወደ ትውልዱ ጨምር", "ajOK": "🌱 {N} ትውልዱን ተቀላቀለ — ትውልድ {g}", "nomOb": "ስም ያስፈልጋል ✍️", "lignee": "🧬 እስከ መስራቹ ያለው ትውልድ", "enfants": "👶 ልጆች", "aucunE": "የለም", "modif": "✏️ አርትዕ", "waBtn": "📲 ዋትሳፕ", "nuitT": "ገጽታ ተቀይሯል 🌙", "sonOn": "🔊 ድምፅ በርቷል", "sonOff": "🔇 ድምፅ ጠፍቷል", "langOK": "አማርኛ ✓", "edNom": "ስም:", "edVille": "ከተማ:", "edOK": "✏️ መገለጫ ተዘምኗል", "retImp": "አይቻልም: በዛፉ ውስጥ ዘር አለው።", "retQ": "ይህን አባል ከዛፉ ላስወግድ?", "retOK": "🗑️ ተወግዷል", "waTxt": "የቤተሰብ ዛፍ ተቀላቀል!", "expOK": "📤 የJSON ቅጂ ወርዷል", "impOK": "📥 ቤተሰብ ገብቷል:", "impBad": "ልክ ያልሆነ ፋይል", "phNom": "ምሳሌ: Ibrahim Dan Moussa", "g1": "የተሟሉ መገለጫዎች", "g2": "የታከሉ ፎቶዎች", "toi": "አንተ", "jr": "ቀ"}, "wo": {"sal": "Dalal ak jàmm ci njabootu Dan Moussa!", "n0": "Kër", "n1": "Njaboot", "n2": "Garab", "n3": "Po+", "n4": "Yokk", "tprov": "Léebu tey", "prov1": "Mbokk dañu koy suqali ak ganesi.", "prov2": "Benn loxo du yékkati kaw kër.", "prov3": "Dëgg moo gën xaalis.", "prov4": "Juddu mooy garabu dee — askan wi di wéy.", "mb": "mbokk", "viv": "ñuy dund", "gen": "maas", "pays": "réew", "anniv": "🎂 Bés-juddu weer wi", "fete": "dina am {n} at ci weer wii 🎉", "aucanniv": "Amul bés-juddu ci weer wii.", "frise": "🕰️ Taarixu njaboot gi", "nait": "juddu ci", "evt": "📯 Xew-xew yu mujj", "naiss": "👶 Yégle juddu", "mari": "💍 Yégle takk", "evtQ1": "Turu liir bi?", "evtQ2": "Kan mooy takk?", "evtN": "👶 Juddug", "evtM": "💍 Takku", "evtOK": "📯 Njaboot gépp xam na!", "serie": "Toftalu ganesi", "serieH": "Ñëwal bés bu nekk — 7 fan = 🏅 Wottukatu askan", "saluer": "🤲 Salaam!", "dejasalue": "Nuyu nga tey — ba suba!", "salueOK": "🔥 Toftal: {n} fan. Njaboot gi di la nuyu!", "searchPH": "🔎 Seet ab mbokk walla dëkk…", "tousG": "Maas yépp", "tousP": "🌍 Réew yépp", "aucun": "Kenn feeñul 🔎", "arbreH": "Bësal ▸ ngir ubbi banqaas, tur ngir ubbi kayit.", "lien": "🔗 Nattukaayu mbokk", "calc": "Natt mbokk gi", "meme": "Benn nit la 😄", "lienDesc": "{B} mu ngi jóge ci {A} ({n} maas ci suuf)", "lienFrere": "Doomi ndey (benn waajur: {C})", "lienOncle": "Nijaay ↔ doomu mag, jaare ko {C}", "lienCous": "Doomi nijaay (tolluwaay {n}), maam bu ñu bokk: {C}", "quiz": "🎯 Po « Kan la? »", "score": "Tomb", "srie": "Toftal", "quizQ": "Kan moo juddu ci {a} ci {v}?", "bravo": "✅ +10 tomb! Toftal {n} 🔥", "rate": "❌ Juum nga — toftal bi dellu ci tus", "myst": "🕵🏾 Mbokk bu kumpa bu tey", "ind1": "Firnde 1: maas G{g}.", "ind2": "Firnde 2: dëkk na {v}.", "ind3": "Firnde 3: juddu ci {a}.", "deviner": "Xalaat", "trouve": "🎉 Baax na! {N} la woon!", "encore": "❌ Déedéet… beneen firnde", "perdu": "😅 Ndeysaan! Tontu: {N}", "demain": "Beneen kumpa suba!", "diapo": "🎞️ Wone", "diapoH": "Wonal njaboot gépp ci ndaje yi.", "lancer": "▶ Tàmbali wone bi", "stop": "⏹ Taxaw", "gene": "Maas", "livre": "📖 Téereb njaboot", "msgPH": "Sa bataaxal ci njaboot gi…", "signer": "Xaatim", "signOK": "📖 Bataaxal bi dugg na", "videM": "Bindal sa bataaxal bu jëkk ✍️", "amin": "🤲 Amiin", "gard": "🏆 Wottukati fàttaliku", "gardH": "Lu nekk loo yokk am na solo!", "contribs": "ndimbal", "diasp": "🌍 Sunu njaboot ci àddina", "mbs": "mbokk", "fiches": "📋 Kayit yu mat", "fichesH": "Yéene: dëkk + réew + at ngir ku nekk.", "ajout": "➕ Yokk ab mbokk", "fNom": "Tur wu mat", "fGenre": "Awra", "fH": "👨🏾 Góor", "fF": "👩🏾 Jigéen", "fAn": "Atum juddu", "fVille": "Dëkk", "fPays": "Réew", "fParent": "Waajur (ci garab gi)", "ajBtn": "Yokk ci askan wi", "ajOK": "🌱 {N} dugg na ci askan wi — maas {g}", "nomOb": "Tur wi war na ✍️", "lignee": "🧬 Askanam ba ci njiitu njaboot gi", "enfants": "👶 Doom yi", "aucunE": "Amul", "modif": "✏️ Soppi", "waBtn": "📲 WhatsApp", "nuitT": "Melo wi soppiku na 🌙", "sonOn": "🔊 Xumbaay taxaw na", "sonOff": "🔇 Xumbaay fey na", "langOK": "Wolof ✓", "edNom": "Tur:", "edVille": "Dëkk:", "edOK": "✏️ Kayit bi yeesal na", "retImp": "Mënul: am na askan ci garab gi.", "retQ": "Dindi mbokk mii ci garab gi?", "retOK": "🗑️ Dindi nañu ko", "waTxt": "Duggal ci garabu njaboot gi!", "expOK": "📤 JSON bi yebbu na", "impOK": "📥 Njaboot gi dugg na:", "impBad": "Fiise bu baaxul", "phNom": "Misaal: Ibrahim Dan Moussa", "g1": "kayit yu mat", "g2": "nataal yu yokku", "toi": "Yow", "jr": "f"}, "ff": {"sal": "Bisimilla e ɓesngu Dan Moussa!", "n0": "Galle", "n1": "Ɓesngu", "n2": "Lekki", "n3": "Fijo+", "n4": "Ɓeydu", "tprov": "Tindol hannde", "prov1": "Musidal na moƴƴinee e njillu.", "prov2": "Junngo gootel ɓamataa tiba.", "prov3": "Goonga ɓuri jawdi.", "prov4": "Jibinegol ko lekki maayde — jurol na jokka.", "mb": "ɓesngu", "viv": "wuurɓe", "gen": "jamaanuuji", "pays": "leyɗeele", "anniv": "🎂 Ñalɗi jibineede lewru ndu", "fete": "timmata duuɓi {n} e lewru ndu 🎉", "aucanniv": "Alaa ñalngu jibineede e lewru ndu.", "frise": "🕰️ Taariika ɓesngu", "nait": "jibinaa to", "evt": "📯 Kew-kewe cakkitiiɗe", "naiss": "👶 Yeeynude jibinegol", "mari": "💍 Yeeynude dewgal", "evtQ1": "Innde ɓinngel ngel?", "evtQ2": "Hol resata?", "evtN": "👶 Jibinegol", "evtM": "💍 Dewgal", "evtOK": "📯 Ɓesngu fof anndinaama!", "serie": "Jokkondiral njillu", "serieH": "Artu ñalnde kala — balɗe 7 = 🏅 Deenoowo jurol", "saluer": "🤲 Jam!", "dejasalue": "A salminii hannde — haa janngo!", "salueOK": "🔥 Jokkondiral: balɗe {n}. Ɓesngu ngu na salmina!", "searchPH": "🔎 Yiylo neɗɗo walla wuro…", "tousG": "Jamaanuuji fof", "tousP": "🌍 Leyɗeele fof", "aucun": "Hay gooto yiytaaka 🔎", "arbreH": "Ƴeew ▸ ngam udditde catal, innde ngam kaayit.", "lien": "🔗 Limoore enɗam", "calc": "Limto enɗam", "meme": "Ko neɗɗo gooto 😄", "lienDesc": "{B} ummii e {A} (jamaanu {n} les)", "lienFrere": "Sukaaɓe yumma (jinnaaɗo gooto: {C})", "lienOncle": "Kaawu ↔ ɓiy mawniraaɗo, rewde e {C}", "lienCous": "Denɗiraaɓe (tolno {n}), maama gooto: {C}", "quiz": "🎯 Fijo « Hol oon? »", "score": "Poɓɓe", "srie": "Jokkondiral", "quizQ": "Hol jibinaaɗo e {a} to {v}?", "bravo": "✅ Poɓɓe +10! Jokkondiral {n} 🔥", "rate": "❌ A juumii — artii e meere", "myst": "🕵🏾 Neɗɗo suuɗiiɗo hannde", "ind1": "Maale 1: jamaanu G{g}.", "ind2": "Maale 2: hoɗi to {v}.", "ind3": "Maale 3: jibinaa e {a}.", "deviner": "Sikkito", "trouve": "🎉 Moƴƴii! Ko {N}!", "encore": "❌ Alaa… maale goɗɗe", "perdu": "😅 Yurmeende! Jaabawol: {N}", "demain": "Sirlu keso janngo!", "diapo": "🎞️ Hollirde", "diapoH": "Hollir ɓesngu fof e batuuji.", "lancer": "▶ Fuɗɗu hollirde", "stop": "⏹ Dartin", "gene": "Jamaanu", "livre": "📖 Deftere ɓesngu", "msgPH": "Ɓataake maa e ɓesngu…", "signer": "Siifu", "signOK": "📖 Ɓataake ɓeydaama", "videM": "Winndu ɓataake maa tawo ✍️", "amin": "🤲 Aamiin", "gard": "🏆 Deenooɓe siftorde", "gardH": "Kala ko ɓeydaa na limee!", "contribs": "ballal", "diasp": "🌍 Ɓesngu men e winndere", "mbs": "neɗɗo", "fiches": "📋 Kaayitaaji timmuɗi", "fichesH": "Faandaare: wuro + leydi + hitaande wonande kala.", "ajout": "➕ Ɓeydu neɗɗo", "fNom": "Innde timmunde", "fGenre": "Njogoram", "fH": "👨🏾 Gorko", "fF": "👩🏾 Debbo", "fAn": "Hitaande jibineede", "fVille": "Wuro", "fPays": "Leydi", "fParent": "Jinnaaɗo (e lekki ki)", "ajBtn": "Ɓeydu e jurol", "ajOK": "🌱 {N} naatii e jurol — jamaanu {g}", "nomOb": "Innde na waɗɗii ✍️", "lignee": "🧬 Jurol makko haa fuɗɗuɗo", "enfants": "👶 Ɓiɓɓe", "aucunE": "Alaa winndaaɗo", "modif": "✏️ Waylu", "waBtn": "📲 WhatsApp", "nuitT": "Mbaydi waylaama 🌙", "sonOn": "🔊 Hito huɓɓaama", "sonOff": "🔇 Hito ñifaama", "langOK": "Pulaar ✓", "edNom": "Innde:", "edVille": "Wuro:", "edOK": "✏️ Kaayit heseɗinaama", "retImp": "Waawaa: omo jogii jurol e lekki ki.", "retQ": "Ittu neɗɗo oo e lekki ki?", "retOK": "🗑️ Ittaama", "waTxt": "Naat e lekki ɓesngu!", "expOK": "📤 JSON danndaama", "impOK": "📥 Ɓesngu naatii:", "impBad": "Fiilde moƴƴaani", "phNom": "Yeru: Ibrahim Dan Moussa", "g1": "kaayitaaji timmuɗi", "g2": "natal ɓeydaaɗi", "toi": "Aan", "jr": "ñ"}};
+
+const LANGS=[['fr','🇫🇷 Français'],['en','🇬🇧 English'],['ha','🇳🇬 Hausa'],['ar','🇸🇦 العربية'],
+ ['sw','🇰🇪 Kiswahili'],['yo','🇳🇬 Yorùbá'],['am','🇪🇹 አማርኛ'],['wo','🇸🇳 Wolof'],['ff','🇬🇳 Pulaar']];
+DICT.fr.appTitre='Notre Famille';DICT.en.appTitre='Our Family';DICT.ha.appTitre='Iyalinmu';
+DICT.ar.appTitre='عائلتنا';DICT.sw.appTitre='Familia Yetu';DICT.yo.appTitre='Ìdílé Wa';
+DICT.am.appTitre='ቤተሰባችን';DICT.wo.appTitre='Sunu Njaboot';DICT.ff.appTitre='Ɓesngu Amen';
+let LG=localStorage.getItem('nf_lang')||'fr';
+const T=k=>(DICT[LG]&&DICT[LG][k])??DICT.fr[k]??k;
+const F=(k,o)=>Object.entries(o||{}).reduce((s,[a,b])=>s.split('{'+a+'}').join(b),T(k));
+
+// ── Données ──
+let M=[[0,null,'Alhaji Dan Moussa','h',1920,1998,'Maroua','Cameroun'],
+[1,0,'Oumarou Dan Moussa','h',1945,2015,'Maroua','Cameroun'],[2,0,'Hadiza Dan Moussa','f',1948,null,'Garoua','Cameroun'],
+[3,0,'Sani Dan Moussa','h',1952,null,'Kano','Nigeria'],[4,1,'Aminatou Oumarou','f',1968,null,'Ngaoundéré','Cameroun'],
+[5,1,'Moussa Oumarou','h',1971,null,'Yaoundé','Cameroun'],[6,2,'Abdou Kabir','h',1970,null,'Accra','Ghana'],
+[7,3,'Fatima Sani','f',1975,null,'Kano','Nigeria'],[8,3,'Yusuf Sani','h',1978,null,'Djeddah','Arabie saoudite'],
+[9,4,'Salamatou Bello','f',1990,null,'Douala','Cameroun'],[10,4,'Harouna Bello','h',1993,null,'Paris','France'],
+[11,5,'Zainab Moussa','f',1995,null,'Yaoundé','Cameroun'],[12,5,'Adamou Moussa','h',1998,null,'Libreville','Gabon'],
+[13,6,'Rukayya Abdou','f',1996,null,'Accra','Ghana'],[14,7,'Ibrahim Garba','h',2000,null,'Abuja','Nigeria'],
+[15,8,'Maryam Yusuf','f',2004,null,'Djeddah','Arabie saoudite'],[16,9,'Nafisa Petite','f',2018,null,'Douala','Cameroun'],
+[17,11,'Bébé Aliyu','h',2025,null,'Yaoundé','Cameroun']]
+.map(m=>({id:m[0],p:m[1],nom:m[2],g:m[3],na:m[4],dc:m[5],ville:m[6],pays:m[7]}));
+let NEXTID=100;
+const DRAP={Cameroun:'🇨🇲',Nigeria:'🇳🇬',Ghana:'🇬🇭','Arabie saoudite':'🇸🇦',France:'🇫🇷',Gabon:'🇬🇦'};
+const PROV=['Zumunta a ƙafa take.','Hannu ɗaya ba ya ɗaukar jinka.','Gaskiya ta fi kwabo.','Haihuwa maganin mutuwa.'];
+let EVTS=[{k:'n',nom:'Bébé Aliyu',d:'2025'},{k:'m',nom:'Salamatou',d:'2017'}];
+let LIVRE=[{n:'Hadiza',m:'Allah ya kiyaye iyalinmu. Amin.',r:4}];
+let STREAK=1,CKF=false,QSCORE=0,QSERIE=0,CONTRIB=0,SON=true,indice=1,diapoT=null,quizRep=null;
+const MYST={m:null,trouve:false};
+
+// ── Outils ──
+const $=id=>document.getElementById(id);
+const av=m=>m.g==='f'?'👩🏾':'👨🏾';
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');bip(640);clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2600)}
+let AC=null;
+function bip(f){if(!SON)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+ const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f||600;g.gain.value=.05;
+ o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.09)}catch(e){}}
+function confF(){['🎉','🎊','🌿','⭐','🎉','⭐','🎊'].forEach(e=>{const s=document.createElement('span');
+ s.className='confF';s.textContent=e;s.style.left=(8+Math.random()*84)+'vw';s.style.animationDelay=(Math.random()*.5)+'s';
+ document.body.appendChild(s);setTimeout(()=>s.remove(),2800)})}
+function gener(m){let g=1,c=m;while(c.p!==null){c=M.find(x=>x.id===c.p);if(!c)break;g++}return g}
+const enfants=id=>M.filter(x=>x.p===id);
+function ancetres(m){const a=[m];let c=m;while(c.p!==null){c=M.find(x=>x.id===c.p);if(!c)break;a.push(c)}return a}
+function ecran(i,b){document.querySelectorAll('.ecr').forEach((e,j)=>e.classList.toggle('on',j===i));
+ document.querySelectorAll('nav>button').forEach(x=>x.classList.remove('on'));b.classList.add('on');window.scrollTo(0,0)}
+function basculerNuit(){document.body.classList.toggle('nuit');toast(T('nuitT'))}
+function basculerSon(){SON=!SON;$('bSon').textContent=SON?'🔊':'🔇';toast(T(SON?'sonOn':'sonOff'))}
+
+// ══ MOTEUR DE LANGUE — un seul point d'entrée ══
+function setLang(l){LG=l;localStorage.setItem('nf_lang',l);
+ document.documentElement.lang=l;document.documentElement.dir=(l==='ar')?'rtl':'ltr';
+ appliquer();toast(T('langOK'))}
+function appliquer(){
+ document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=T(e.dataset.i18n));
+ document.querySelectorAll('[data-ph]').forEach(e=>e.placeholder=T(e.dataPh||e.dataset.ph));
+ $('lang').innerHTML=LANGS.map(([c,n])=>`<option value="${c}"${c===LG?' selected':''}>${n}</option>`).join('');
+ $('aG').innerHTML=`<option value="h">${T('fH')}</option><option value="f">${T('fF')}</option>`;
+ toutRendre();
+ if(FICHE!==null)ouvrir(FICHE);}
+
+// ── Rendus (100 % traduits) ──
+function rendreAccueil(){
+ const i=new Date().getDate()%PROV.length;
+ $('proverbe').innerHTML='« '+PROV[i]+' »<br><small style="opacity:.85">'+T('prov'+(i+1))+'</small>';
+ const gens=Math.max(...M.map(gener)),np=new Set(M.map(m=>m.pays)).size,viv=M.filter(m=>!m.dc).length;
+ $('stats').innerHTML=[[M.length,'mb'],[viv,'viv'],[gens,'gen'],[np,'pays']]
+  .map(s=>`<div class="s1"><b>${s[0]}</b><small>${T(s[1])}</small></div>`).join('');
+ $('stF').textContent=STREAK;
+ const mois=new Date().getMonth(),an=M.filter(m=>!m.dc&&(m.id*7)%12===mois);
+ $('annivs').innerHTML=an.length?an.map(m=>`<div class="membre" onclick="ouvrir(${m.id})"><div class="av">${av(m)}</div>
+  <div><b>${m.nom}</b><small>${F('fete',{n:new Date().getFullYear()-m.na})}</small></div></div>`).join('')
+  :'<p class="hint">'+T('aucanniv')+'</p>';
+ $('frise').innerHTML=[...M].sort((a,b)=>a.na-b.na).slice(0,7)
+  .map(m=>`<div class="ev"><b>${m.na}</b> — ${av(m)} ${m.nom}<small>${T('nait')} ${m.ville} ${DRAP[m.pays]||''}</small></div>`).join('');
+ $('evts').innerHTML=EVTS.map(e=>`<div class="m1">${e.k==='n'?T('evtN'):T('evtM')} ${e.nom}<br><small>${e.d}</small></div>`).join('');
+ rendreDiasp()}
+function rendreDiasp(){const cp={};M.forEach(m=>cp[m.pays]=(cp[m.pays]||0)+1);
+ $('diasp').innerHTML=Object.entries(cp).sort((a,b)=>b[1]-a[1]).map(([p,n])=>
+  `<div class="d1"><b>${DRAP[p]||'🏳️'}</b><small>${p}</small><small><b>${n}</b> ${T('mbs')}</small></div>`).join('');
+ const ok=M.filter(m=>m.ville!=='—'&&m.pays&&m.na).length,pct=Math.round(100*ok/M.length);
+ $('ringC').querySelector('i').style.setProperty('--deg',pct*3.6+'deg');$('ringCT').textContent=pct+'%'}
+function evt(k){const nom=prompt(k==='n'?T('evtQ1'):T('evtQ2'));if(!nom)return;
+ EVTS.unshift({k,nom,d:new Date().getFullYear()});CONTRIB++;rendreAccueil();rendreGardiens();confF();toast(T('evtOK'))}
+function ckFam(){if(CKF)return toast(T('dejasalue'));CKF=true;STREAK++;$('stF').textContent=STREAK;
+ $('ckF').disabled=true;confF();toast(F('salueOK',{n:STREAK}))}
+
+let fGen=0,fPays='';
+function setGen(g){fGen=g;rendreMembres()}
+function setPays(p){fPays=p;rendreMembres()}
+function rendreMembres(){const gens=Math.max(...M.map(gener));
+ $('chGen').innerHTML=`<button class="chip${fGen===0?' on':''}" onclick="setGen(0)">${T('tousG')}</button>`+
+  Array.from({length:gens},(_,i)=>`<button class="chip${fGen===i+1?' on':''}" onclick="setGen(${i+1})">G${i+1}</button>`).join('');
+ $('chPays').innerHTML=`<button class="chip${fPays===''?' on':''}" onclick="setPays('')">${T('tousP')}</button>`+
+  [...new Set(M.map(m=>m.pays))].map(p=>`<button class="chip${fPays===p?' on':''}" onclick="setPays('${p}')">${DRAP[p]||'🏳️'} ${p}</button>`).join('');
+ const q=($('q').value||'').toLowerCase();
+ const l=M.filter(m=>(!q||m.nom.toLowerCase().includes(q)||m.ville.toLowerCase().includes(q)||m.pays.toLowerCase().includes(q))
+  &&(!fGen||gener(m)===fGen)&&(!fPays||m.pays===fPays));
+ $('liste').innerHTML=l.length?l.map(m=>`<div class="membre" onclick="ouvrir(${m.id})"><div class="av">${av(m)}</div>
+  <div><b>${m.nom}${m.dc?' 🕊️':''}</b><small>${m.na}${m.dc?'–'+m.dc:''} · ${m.ville} ${DRAP[m.pays]||''}</small></div>
+  <span class="gen">G${gener(m)}</span></div>`).join('')
+  :'<p class="hint" style="padding:20px;text-align:center">'+T('aucun')+'</p>'}
+
+const plis=new Set();
+function plier(id){plis.has(id)?plis.delete(id):plis.add(id);rendreArbre()}
+function rendreArbre(){const root=M.find(m=>m.p===null);if(!root)return;
+ const rec=m=>{const k=enfants(m.id),fe=plis.has(m.id);
+  return `<div class="noeud">${k.length?`<button class="pli" onclick="event.stopPropagation();plier(${m.id})">${fe?'▸':'▾'}</button>`:'<span class="pli" style="opacity:.3">·</span>'}
+   <span class="nm" onclick="ouvrir(${m.id})">${av(m)} ${m.nom} <small>· G${gener(m)} ${m.dc?'🕊️':''}</small></span></div>
+   ${k.length&&!fe?'<ul>'+k.map(x=>'<li>'+rec(x)+'</li>').join('')+'</ul>':''}`};
+ $('arbre').innerHTML=rec(root)}
+
+let FICHE=null;
+function ouvrir(id){const m=M.find(x=>x.id===id);if(!m)return;FICHE=id;
+ const lig=ancetres(m).map(a=>a.nom.split(' ')[0]).join(' → ');
+ $('fbody').innerHTML=`<div style="text-align:center"><div style="font-size:52px">${av(m)}</div>
+  <h2 style="font-size:17px;margin-top:6px">${m.nom} ${m.dc?'🕊️':''}</h2>
+  <p class="hint">${m.na}${m.dc?' – '+m.dc:''} · ${m.ville}, ${m.pays} ${DRAP[m.pays]||''} · ${T('gene')} ${gener(m)}</p></div>
+  <div class="carte" style="margin-top:12px"><b style="font-size:13px">${T('lignee')}</b><p class="hint" style="margin-top:6px">${lig}</p></div>
+  <div class="carte"><b style="font-size:13px">${T('enfants')} (${enfants(m.id).length})</b>
+  <p class="hint" style="margin-top:6px">${enfants(m.id).map(e=>e.nom).join(', ')||T('aucunE')}</p></div>
+  <div class="frow"><button class="btn o small" onclick="partager(${m.id})">${T('waBtn')}</button>
+   <button class="btn g small" onclick="editer(${m.id})">${T('modif')}</button>
+   <button class="btn g small" style="color:#A33" onclick="retirer(${m.id})">🗑️</button></div>`;
+ $('fiche').classList.add('on')}
+function fermer(){FICHE=null;clearInterval(diapoT);$('fiche').classList.remove('on')}
+function partager(id){const m=M.find(x=>x.id===id);
+ window.open('https://wa.me/?text='+encodeURIComponent('🌳 '+T('appTitre')+' — '+m.nom+' ('+m.na+', '+m.ville+' '+(DRAP[m.pays]||'')+'), '+T('gene')+' '+gener(m)+'. '+T('waTxt')));
+ toast(T('waBtn'))}
+function editer(id){const m=M.find(x=>x.id===id);const n=prompt(T('edNom'),m.nom);if(!n)return;
+ m.nom=n;const v=prompt(T('edVille'),m.ville);if(v)m.ville=v;CONTRIB++;toutRendre();ouvrir(id);toast(T('edOK'))}
+function retirer(id){if(enfants(id).length)return toast(T('retImp'));
+ if(!confirm(T('retQ')))return;M=M.filter(x=>x.id!==id);fermer();toutRendre();toast(T('retOK'))}
+
+function rendreSelects(){const o=M.map(m=>`<option value="${m.id}">${m.nom}</option>`).join('');
+ const a=$('lA').value,b=$('lB').value;
+ $('lA').innerHTML=o;$('lB').innerHTML=o;
+ $('lA').value=a||M[0].id;$('lB').value=b||M[Math.min(9,M.length-1)].id;
+ $('aParent').innerHTML=M.map(m=>`<option value="${m.id}">${m.nom} (G${gener(m)})</option>`).join('');
+ $('mystS').innerHTML=o}
+function calcLien(){const a=M.find(x=>x.id==$('lA').value),b=M.find(x=>x.id==$('lB').value);
+ if(!a||!b)return;if(a===b)return $('lienRes').textContent=T('meme');
+ const A=ancetres(a),B=ancetres(b),com=A.find(x=>B.includes(x));
+ if(!com)return $('lienRes').textContent='—';
+ const da=A.indexOf(com),db=B.indexOf(com);let r;
+ if(da===0)r=F('lienDesc',{B:b.nom,A:a.nom,n:db});
+ else if(db===0)r=F('lienDesc',{B:a.nom,A:b.nom,n:da});
+ else if(da===1&&db===1)r=F('lienFrere',{C:com.nom});
+ else if(da===1||db===1)r=F('lienOncle',{C:com.nom});
+ else r=F('lienCous',{n:Math.min(da,db),C:com.nom});
+ $('lienRes').innerHTML='🔗 <b>'+r+'</b>';bip(700)}
+
+function quiz(){const m=M[Math.floor(Math.random()*M.length)];quizRep=m;
+ const rep=[m.nom,...M.filter(x=>x!==m).sort(()=>Math.random()-.5).slice(0,2).map(x=>x.nom)].sort(()=>Math.random()-.5);
+ $('quizQ').textContent=F('quizQ',{a:m.na,v:m.ville});
+ $('quizR').innerHTML=rep.map((r,i)=>`<button class="chip" style="margin:3px" onclick="repQuiz(${i})">${r}</button>`).join('');
+ $('quizR').dataset.rep=JSON.stringify(rep)}
+function repQuiz(i){const rep=JSON.parse($('quizR').dataset.rep);
+ if(rep[i]===quizRep.nom){QSCORE+=10;QSERIE++;if(QSERIE%3===0)confF();toast(F('bravo',{n:QSERIE}))}
+ else{QSERIE=0;toast(T('rate'))}
+ $('qS').textContent=QSCORE;$('qSer').textContent=QSERIE;quiz()}
+
+function rendreMystere(){if(!MYST.m)MYST.m=M[new Date().getDate()%M.length];
+ const m=MYST.m;
+ if(MYST.trouve){$('mystI').innerHTML='✅ <b>'+m.nom+'</b> — '+T('demain');return}
+ $('mystI').textContent=[,F('ind1',{g:gener(m)}),F('ind2',{v:m.ville}),F('ind3',{a:m.na})][Math.min(3,indice)]}
+function deviner(){const m=MYST.m;
+ if(+$('mystS').value===m.id){MYST.trouve=true;confF();toast(F('trouve',{N:m.nom}));rendreMystere();return}
+ indice++;
+ if(indice<=3){rendreMystere();toast(T('encore'))}
+ else{$('mystI').textContent=F('perdu',{N:m.nom})+' — '+T('demain');toast(F('perdu',{N:m.nom}))}}
+
+function diapo(){let i=0;$('fiche').classList.add('on');
+ const step=()=>{const m=M[i%M.length];
+  $('fbody').innerHTML=`<div class="diapo"><div class="av">${av(m)}</div>
+   <h2 style="font-size:18px;margin:8px 0">${m.nom}</h2>
+   <p class="hint">${m.na} · ${m.ville}, ${m.pays} ${DRAP[m.pays]||''} · ${T('gene')} ${gener(m)}</p>
+   <p class="hint" style="margin-top:8px">${i+1} / ${M.length}</p>
+   <button class="btn g small" style="margin-top:12px" onclick="fermer()">${T('stop')}</button></div>`;i++};
+ step();clearInterval(diapoT);diapoT=setInterval(step,2200)}
+
+function rendreLivre(){$('livre').innerHTML=LIVRE.map((l,i)=>
+ `<div class="m1">« ${l.m} »<br><small>— ${l.nk?T(l.nk):l.n}</small><br>
+  <button class="reactF" onclick="amin(${i})">${T('amin')} · ${l.r}</button></div>`).join('')}
+function amin(i){LIVRE[i].r++;bip(700);rendreLivre()}
+function signer(){const m=$('lMsg').value.trim();if(!m)return toast(T('videM'));
+ LIVRE.unshift({nk:'toi',m,r:0});$('lMsg').value='';CONTRIB++;rendreLivre();rendreGardiens();toast(T('signOK'))}
+function rendreGardiens(){$('gardiens').innerHTML=
+ `<div class="ldrF">🥇 <b>Hadiza</b><span>12 ${T('g1')}</span></div>
+  <div class="ldrF">🥈 <b>Zainab</b><span>8 ${T('g2')}</span></div>
+  <div class="ldrF">🥉 <b>${T('toi')}</b><span>${CONTRIB} ${T('contribs')}</span></div>`}
+
+function ajouter(){const nom=$('aNom').value.trim();if(!nom)return toast(T('nomOb'));
+ M.push({id:NEXTID++,p:+$('aParent').value,nom,g:$('aG').value,na:+$('aAn').value||2000,dc:null,
+  ville:$('aVille').value||'—',pays:$('aPays').value||'Cameroun'});
+ $('aNom').value='';$('aAn').value='';CONTRIB++;confF();bip(880);
+ const nv=M[M.length-1];toutRendre();toast(F('ajOK',{N:nom,g:gener(nv)}))}
+function exporter(){const b=new Blob([JSON.stringify(M,null,1)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='famille-dan-moussa.json';a.click();toast(T('expOK'))}
+function importer(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{try{const d=JSON.parse(r.result);
+  if(Array.isArray(d)&&d.length&&d[0].nom){M=d;NEXTID=Math.max(...M.map(x=>x.id))+1;MYST.m=null;MYST.trouve=false;indice=1;
+   toutRendre();toast(T('impOK')+' '+M.length)}else toast(T('impBad'))}catch(e){toast(T('impBad'))}};
+ r.readAsText(f)}
+
+function toutRendre(){rendreAccueil();rendreMembres();rendreArbre();rendreSelects();rendreLivre();rendreGardiens();rendreMystere();quiz()}
+document.documentElement.lang=LG;document.documentElement.dir=(LG==='ar')?'rtl':'ltr';
+appliquer();
+</script>
+</body>
+</html>
